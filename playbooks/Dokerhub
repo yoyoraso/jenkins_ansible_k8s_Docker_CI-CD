@@ -1,0 +1,19 @@
+---
+- hosts: Docker
+  become: true
+
+  tasks:
+  - name: create docker image using war file
+    command: docker build -t using_k8s:latest .
+    
+
+  - name: create tag to image
+    command: docker tag using_k8s yoyoraso/using_k8s
+
+  - name: push image on to dockerhub
+    command: docker push yoyoraso/using_k8s
+
+  - name: remove docker images form ansible server
+    command: docker rmi using_k8s:latest yoyoraso/using_k8s
+    ignore_errors: yes
+
